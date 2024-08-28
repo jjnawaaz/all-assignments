@@ -1,11 +1,29 @@
 const express = require('express');
 const app = express();
-
+require('dotenv').config()
 app.use(express.json());
 
 let ADMINS = [];
 let USERS = [];
 let COURSES = [];
+
+
+const  MongoURI = process.env.MongoURI
+
+// DB Connection
+const mongoose  = require('mongoose')
+main().catch(err => console.log(err))
+
+async function main(){
+  await mongoose.connect(MongoURI)
+  console.log('Connected to MongoDB')
+}
+
+const UserSchema = new mongoose.Schema({
+  name: String
+})
+
+
 
 // Admin routes
 app.post('/admin/signup', (req, res) => {
