@@ -50,3 +50,7 @@ We will be covering this in the extra class next week but would be good for you 
    Description: Lists all the courses purchased by the user.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
    Output: { purchasedCourses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
+
+
+### 
+TO Start the server use nodemon index.js
