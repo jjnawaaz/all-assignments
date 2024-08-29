@@ -46,4 +46,91 @@ const app = express();
 
 app.use(bodyParser.json());
 
+
+const todos = []
+
+app.get('/',(req,res)=>{
+  res.send("Hello there")
+})
+
+
+
+app.get('/todos',(req,res)=>{
+  res.status(200).send(todos)
+})
+
+app.get('/todos/:id',(req,res)=>{
+  let title = req.params.id
+  for(let i = 0; i < todos.length; i++)
+{
+  if(todos[i].title === title){
+    return res.status(200).json({
+      message: "Successfully fetched todo",
+      todo: todos[i]
+    })
+  } else {
+    return res.status(403).json({
+      message: "Error while fetching todo",
+  })
+  } 
+}})
+
+
+
+
+app.post('/todos',(req,res)=>{
+  const todo = req.body
+  const {title, completed,description} = todo
+  if(!title || !description || !completed) return res.status(403).send("Please send the todos in the following format title: completed: description: ")
+  
+  
+  todos.push(todo)
+  res.status(200).json({
+  message: "Succesfully added todo",
+  todos: todos
+})
+})
+
+
+app.put('/todos/:id',(req,res)=>{
+  const todoname = req.params.id
+  let ans = (todoname === 'Hit gym') ? true : false;
+  const todo = req.body
+  const {title, completed,description} = todo
+  if(!title || !description || !completed) return res.status(403).send("Please send the todos in the following format title: completed: description: ")
+  for(let i = 0; i < todos.length; i++){
+      if(todos[i].title == todoname){
+        todos[i] = todo
+        return res.status(200).send(todos[i])
+      } else {
+        return res.status(403).json({
+          message: "Invalid Todo",
+      })
+      }
+  }
+  return res.send('Iam hitting the end for some reason')
+})
+
+
+
+
+app.delete('/todos/:id',(req,res)=>{
+  const id = req.params.id
+  if(todos[id] != -1){
+    todos.splice(id,1)
+    return res.status(200).json({
+      message: "Successfully deleted the todo"
+    })
+  } else {
+    return res.status(403).json({
+      message: "Invalid Todo",
+  })
+  }
+})
+
+
+app.listen(3000,(req,res)=>{
+  console.log("Server started In port 3000")
+})
+
 module.exports = app;
