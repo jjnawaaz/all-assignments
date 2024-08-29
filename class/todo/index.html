@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    
+    function print(data){
+        console.log(data)
+    }
+    function generate(resp){
+        resp.json().then(print)
+    }
+    
+    
+    function handleClick(){
+        const title = document.getElementById('title').value
+        const completed = document.getElementById('completed').value
+        const description = document.getElementById('description').value
+
+        if(!title || !completed ||!description) console.log("Enter all fields")
+        
+        fetch('http://localhost:3000/todos',{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                title: title,
+                completed: completed,
+                description: description
+            })
+        }).then(generate)
+    }
+</script>
+
+<body>
+    <label for="">Todo Title
+        <input type="text" id="title" placeholder="Enter Title">
+    </label>
+    <label for="">Todo Completed
+        <input type="text" id="completed" placeholder="Enter Title">
+    </label>
+    <label for="">Todo Description
+        <input type="text" id="description" placeholder="Enter Title">
+    </label>
+    <button onclick="handleClick()">Get Todo</button>
+</body>
+</html>
