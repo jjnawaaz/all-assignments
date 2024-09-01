@@ -4,6 +4,9 @@ const cors = require('cors')
 app.use(express.json())
 const fs = require('fs')
 app.use(cors())
+
+
+
 // JSON.parse() ==== To parse the string data to json
 // JSON.stringyfy() ===== to change data from json to string
 

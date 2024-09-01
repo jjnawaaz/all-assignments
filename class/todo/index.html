@@ -8,6 +8,71 @@
 
 <script>
     
+    
+    function deleteconfirm(){
+        console.log('Deleted Todo')
+        location.reload(true);
+    }
+    
+    function deleteTodo(id){
+        
+    
+        fetch(`http://localhost:3000/todos/${id}`,{
+            method: 'Delete',
+            headers:{
+                'Content-Type' : 'application/json'
+            }
+        }).then(deleteconfirm)
+    }
+    
+    function gettodosonload(resp){
+        
+        for(let i = 0; i < resp.length;i++){
+            let grandparentElement = document.createElement('div')
+            grandparentElement.setAttribute('id','resp[i].id')
+            let parentElement1 = document.createElement('p')
+            let parentElement2 = document.createElement('p')
+            let parentElement3 = document.createElement('p')
+            // let parentElement4 = document.createElement('p')
+            let buttonElement = document.createElement('button')
+           buttonElement.setAttribute('onclick', "deleteTodo("+resp[i].id+")")
+            parentElement1.innerHTML = resp[i].title
+            parentElement2.innerHTML = resp[i].completed
+            parentElement3.innerHTML = resp[i].description
+            // parentElement4.innerHTML = resp[i].id
+            buttonElement.innerHTML = "Delete"
+
+
+
+
+            grandparentElement.appendChild(parentElement1)
+            grandparentElement.appendChild(parentElement2)
+            grandparentElement.appendChild(parentElement3)
+            // grandparentElement.appendChild(parentElement4)
+            grandparentElement.appendChild(buttonElement)
+        
+            
+
+
+            document.body.appendChild(grandparentElement)
+        }
+    }
+    function gettodos(resp){
+        resp.json().then(gettodosonload)
+    }
+    
+    function getAllTodos(){
+        fetch('http://localhost:3000/todos',{
+            method:"GET",
+            headers:{
+                'Content-Type': 'application/json'
+            }}).then(gettodos)
+    }
+
+    getAllTodos()
+    
+    
+    
     function print(data){
         console.log(data)
     }
@@ -41,12 +106,15 @@
     <label for="">Todo Title
         <input type="text" id="title" placeholder="Enter Title">
     </label>
+    <br>
     <label for="">Todo Completed
-        <input type="text" id="completed" placeholder="Enter Title">
+        <input type="text" id="completed" placeholder="Enter Completed">
     </label>
+    <br>
     <label for="">Todo Description
-        <input type="text" id="description" placeholder="Enter Title">
+        <input type="text" id="description" placeholder="Enter Description">
     </label>
-    <button onclick="handleClick()">Get Todo</button>
+    <br>
+    <button onclick="handleClick()">Add Todo</button>
 </body>
 </html>
